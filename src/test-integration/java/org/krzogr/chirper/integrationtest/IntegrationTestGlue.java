@@ -64,7 +64,7 @@ public class IntegrationTestGlue {
   private void runCommand(String command) {
     try {
       BufferedReader input = new BufferedReader(new StringReader(
-          command.toString() + "\n"));
+          command.toString() + System.lineSeparator()));
 
       ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
       CommandFactory commandFactory = new CommandFactoryImpl(userManager,
@@ -125,16 +125,24 @@ public class IntegrationTestGlue {
 
   @Then("^user sees$")
   public void thenUserSeesMultipleLines(String output) throws Throwable {
-    assertEquals(commandOutput.toString(), output + System.lineSeparator());
+    assertEquals(prepareExpectedOutput(output), commandOutput.toString());
     commandOutput.setLength(0);
   }
 
   @Then("^user sees \"(.*?)\"$")
   public void thenUserSeesLine(String output) throws Throwable {
-    assertEquals(commandOutput.toString(), output + System.lineSeparator());
+    assertEquals(prepareExpectedOutput(output), commandOutput.toString());
     commandOutput.setLength(0);
   }
 
+  private String prepareExpectedOutput(String output) {
+    String result = output.replaceAll("\r\n", System.lineSeparator());
+    result = output.replaceAll("\r", System.lineSeparator());
+    result = output.replaceAll("\n", System.lineSeparator());
+    result = result + System.lineSeparator();
+    return result;
+  }
+  
   @Then("^user sees no output$")
   public void thenUserSeesNoOutput() throws Throwable {
     assertEquals("", commandOutput.toString());
