@@ -140,8 +140,8 @@ public final class WallPostIterator implements Iterator<Post> {
    * 
    * @param ref1 Reference to post1
    * @param ref2 Reference to post2
-   * @return Integer with the same semantics as in
-   *         {@link java.util.Comparator#compare(Object,Object)}.
+   * @return True if post represented by ref1 should be displayed before
+   * the post represented by ref2. False otherwise.
    */
   private boolean isBefore(final PostRef ref1, final PostRef ref2) {
     Post post1 = ref1.getPost();
