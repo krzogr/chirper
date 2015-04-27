@@ -136,9 +136,7 @@ public class IntegrationTestGlue {
   }
 
   private String prepareExpectedOutput(String output) {
-    String result = output.replaceAll("\r\n", System.lineSeparator());
-    result = output.replaceAll("\r", System.lineSeparator());
-    result = output.replaceAll("\n", System.lineSeparator());
+    String result = output.replaceAll("\n", System.lineSeparator());
     result = result + System.lineSeparator();
     return result;
   }
