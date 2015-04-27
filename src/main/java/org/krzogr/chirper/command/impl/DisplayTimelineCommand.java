@@ -16,27 +16,30 @@ import org.krzogr.chirper.util.PostWriter;
  * </p>
  */
 public final class DisplayTimelineCommand implements Runnable {
-	private final UserManager userManager;
-	private final String userName;
-	private final PrintStream output;
-	private final Clock clock;
+  private final UserManager userManager;
+  private final String userName;
+  private final PrintStream output;
+  private final Clock clock;
 
-	public DisplayTimelineCommand(final UserManager userManager, final String userName,
-			                      final PrintStream output, final Clock clock) {
-		Objects.requireNonNull(userManager);
-		Objects.requireNonNull(userName);
-		Objects.requireNonNull(output);
-		Objects.requireNonNull(clock);
-		
-		this.userManager = userManager;
-		this.userName = userName;
-		this.output = output;
-		this.clock = clock;
-	}
+  public DisplayTimelineCommand(final UserManager userManager,
+      final String userName, final PrintStream output, final Clock clock) {
+    Objects.requireNonNull(userManager);
+    Objects.requireNonNull(userName);
+    Objects.requireNonNull(output);
+    Objects.requireNonNull(clock);
 
-	@Override
-	public void run() {
-		PostWriter writer = new PostWriter(output, LocalDateTime.now(clock), new PostFormatter(false, true));
-		userManager.getOrCreateUser(userName).getTimeline().forEach(p -> writer.write(p));		
-	}
+    this.userManager = userManager;
+    this.userName = userName;
+    this.output = output;
+    this.clock = clock;
+  }
+
+  @Override
+  public void run() {
+    PostWriter writer = new PostWriter(output, LocalDateTime.now(clock),
+        new PostFormatter(false, true));
+    
+    userManager.getOrCreateUser(userName).getTimeline()
+        .forEach(p -> writer.write(p));
+  }
 }

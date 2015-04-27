@@ -10,28 +10,34 @@ import org.krzogr.chirper.service.Post;
  * Utility class to format Post to a user friendly string.
  */
 public final class PostFormatter {
-	private final boolean includeUserName;
-	private final boolean highestDurationUnitOnly;
-	
-	public PostFormatter(final boolean includeUserName, final boolean highestDurationUnitOnly) {
-		this.includeUserName = includeUserName;
-		this.highestDurationUnitOnly = highestDurationUnitOnly;
-	}
+  private final boolean includeUserName;
+  private final boolean highestDurationUnitOnly;
 
-	public String format(final Post post, final LocalDateTime referenceTime) {
-		StringBuilder buffer = new StringBuilder();
-		
-		if(includeUserName) {
-			buffer.append(post.getUser().getUserName()).append(" - ");
-		}
+  public PostFormatter(final boolean includeUserName,
+      final boolean highestDurationUnitOnly) {
+    this.includeUserName = includeUserName;
+    this.highestDurationUnitOnly = highestDurationUnitOnly;
+  }
 
-		buffer.append(post.getText());
-		buffer.append(" (").append(formatPostAge(post, referenceTime)).append(" ago)");
-		
-		return buffer.toString();
-	}
-	
-	private String formatPostAge(final Post post, final LocalDateTime referenceTime) {
-		return DurationFormatter.format(between(post.getCreationTime(), referenceTime), highestDurationUnitOnly);
-	}
+  public String format(final Post post, final LocalDateTime referenceTime) {
+    StringBuilder buffer = new StringBuilder();
+
+    if (includeUserName) {
+      buffer.append(post.getUser().getUserName()).append(" - ");
+    }
+
+    buffer.append(post.getText());
+    buffer.append(" (");
+    buffer.append(formatPostAge(post, referenceTime));
+    buffer.append(" ago)");
+
+    return buffer.toString();
+  }
+
+  private String formatPostAge(final Post post,
+      final LocalDateTime referenceTime) {
+    return DurationFormatter
+        .format(between(post.getCreationTime(), referenceTime),
+            highestDurationUnitOnly);
+  }
 }

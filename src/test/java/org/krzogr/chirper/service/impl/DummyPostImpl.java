@@ -8,33 +8,33 @@ import org.krzogr.chirper.service.User;
  * Dummy implementation of Post used for testing.
  */
 public class DummyPostImpl implements Post {
-	private long id;
-	private String text;
-	private LocalDateTime creationTime;
-	
-	public DummyPostImpl(long id, String text, LocalDateTime creationTime) {
-		this.id = id;
-		this.text = text;
-		this.creationTime = creationTime;
-	}
+  private long id;
+  private String text;
+  private LocalDateTime creationTime;
 
-	@Override
-	public long getId() {
-		return id;
-	}
+  public DummyPostImpl(long id, String text, LocalDateTime creationTime) {
+    this.id = id;
+    this.text = text;
+    this.creationTime = creationTime;
+  }
 
-	@Override
-	public String getText() {
-		return text;
-	}
+  @Override
+  public long getId() {
+    return id;
+  }
 
-	@Override
-	public User getUser() {
-		return null;
-	}
+  @Override
+  public String getText() {
+    return text;
+  }
 
-	@Override
-	public LocalDateTime getCreationTime() {
-		return creationTime;
-	}
+  @Override
+  public User getUser() {
+    return null;
+  }
+
+  @Override
+  public LocalDateTime getCreationTime() {
+    return creationTime;
+  }
 }

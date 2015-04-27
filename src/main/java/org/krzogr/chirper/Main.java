@@ -15,16 +15,20 @@ import org.krzogr.chirper.service.impl.UserManagerImpl;
 /**
  * Main class which starts the Chirper console application.
  * <p>
- * Application will read commands from standard input and write results to standard output.
- * To terminate the application the user needs to press Ctrl+C.
+ * Application will read commands from standard input and write results to
+ * standard output. To terminate the application the user needs to press Ctrl+C.
  * </p>
  */
 public final class Main {
-	public static void main(final String[] args) {
-		BufferedReader commandInput = new BufferedReader(new InputStreamReader(System.in, Charset.defaultCharset()));
-		CommandFactory commandFactory = new CommandFactoryImpl(new UserManagerImpl(), System.out, Clock.systemDefaultZone());
-		CommandParser commandParser = new CommandParserImpl(commandFactory);
+  public static void main(final String[] args) {
+    BufferedReader commandInput = new BufferedReader(new InputStreamReader(
+        System.in, Charset.defaultCharset()));
 
-		new ChirperApp(commandInput, commandParser, System.err).run();
-	}
+    CommandFactory commandFactory = new CommandFactoryImpl(
+        new UserManagerImpl(), System.out, Clock.systemDefaultZone());
+
+    CommandParser commandParser = new CommandParserImpl(commandFactory);
+
+    new ChirperApp(commandInput, commandParser, System.err).run();
+  }
 }
