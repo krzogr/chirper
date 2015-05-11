@@ -2,7 +2,6 @@ package org.krzogr.chirper.command.impl;
 
 import java.io.PrintStream;
 import java.time.Clock;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 import org.krzogr.chirper.command.CommandFactory;
@@ -30,8 +29,7 @@ public final class CommandFactoryImpl implements CommandFactory {
   @Override
   public Runnable createAddPostCommand(final String userName,
       final String postText) {
-    return new AddPostCommand(userManager, userName, postText,
-        LocalDateTime.now(clock));
+    return new AddPostCommand(userManager, userName, postText);
   }
 
   @Override

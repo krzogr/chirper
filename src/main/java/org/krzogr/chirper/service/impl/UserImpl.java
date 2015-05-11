@@ -3,7 +3,6 @@ package org.krzogr.chirper.service.impl;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -44,11 +43,11 @@ public final class UserImpl implements User {
   }
 
   @Override
-  public Post addPost(final String text, final LocalDateTime creationTime) {
+  public Post addPost(final String text) {
     Objects.requireNonNull(text);
-    Objects.requireNonNull(creationTime);
 
-    Post post = new PostImpl(userManager.nextPostId(), text, this, creationTime);
+    Post post = new PostImpl(userManager.nextPostId(), text, this,
+      LocalDateTime.now(userManager.getClock()));
     posts.addFirst(post);
 
     return post;
@@ -72,12 +71,12 @@ public final class UserImpl implements User {
 
   @Override
   public Iterable<Post> getWall() {
-    List<Iterator<Post>> iterators = new ArrayList<Iterator<Post>>(
+    List<Iterable<Post>> iterables = new ArrayList<Iterable<Post>>(
         usersToFollow.size() + 1);
 
-    iterators.add(posts.iterator());
-    usersToFollow.forEach(user -> iterators.add(user.getTimeline().iterator()));
+    iterables.add(posts);
+    usersToFollow.forEach(user -> iterables.add(user.getTimeline()));
 
-    return new WallPostIterable(iterators);
+    return new WallPostIterable(iterables);
   }
 }

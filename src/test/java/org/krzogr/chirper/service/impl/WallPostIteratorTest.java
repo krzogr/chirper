@@ -6,7 +6,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
-import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -32,55 +31,102 @@ public class WallPostIteratorTest {
 
   @Test
   public void testMultipleEmptyIterators() {
-    WallPostIterator iter = new WallPostIterator(asList(iterator(), iterator(),
-        iterator()));
+    WallPostIterator iter = new WallPostIterator(asList(posts(), posts(),
+        posts()));
     assertEmpty(iter);
   }
 
   @Test
   public void testSingleIteratorOnePost() {
-    WallPostIterator iter = new WallPostIterator(asList(iterator(post(1,
+    WallPostIterator iter = new WallPostIterator(asList(posts(post(1,
         "10:00:00"))));
     assertPostIds(iter, 1);
   }
 
   @Test
   public void testSingleIteratorTwoPosts() {
-    WallPostIterator iter = new WallPostIterator(asList(iterator(
+    WallPostIterator iter = new WallPostIterator(asList(posts(
         post(1, "10:00:00"), post(2, "10:00:00"))));
     assertPostIds(iter, 1, 2);
   }
 
   @Test
+  public void testSingleIteratorThreePosts() {
+    WallPostIterator iter = new WallPostIterator(asList(posts(
+        post(1, "10:00:00"), post(2, "10:00:00"), post(3, "10:00:00"))));
+    assertPostIds(iter, 1, 2, 3);
+  }
+  
+  @Test
   public void testAllCreationTimesEqualSortByPostId() {
-    Iterator<Post> iterator1 = iterator(post(9, "10:00:00"),
+    Iterable<Post> iterable1 = posts(post(9, "10:00:00"),
         post(8, "10:00:00"));
-    Iterator<Post> iterator2 = iterator(post(7, "10:00:00"),
+    Iterable<Post> iterable2 = posts(post(7, "10:00:00"),
         post(6, "10:00:00"), post(5, "10:00:00"));
-    Iterator<Post> iterator3 = iterator(post(4, "10:00:00"),
+    Iterable<Post> iterable3 = posts(post(4, "10:00:00"),
         post(3, "10:00:00"), post(1, "10:00:00"));
-    Iterator<Post> iterator4 = iterator(post(2, "10:00:00"));
+    Iterable<Post> iterable4 = posts(post(2, "10:00:00"));
 
-    WallPostIterator iter = new WallPostIterator(asList(iterator1, iterator2,
-        iterator3, iterator4));
+    WallPostIterator iter = new WallPostIterator(asList(iterable1, iterable2,
+        iterable3, iterable4));
     assertPostIds(iter, 9, 8, 7, 6, 5, 4, 3, 2, 1);
   }
 
   @Test
   public void testSortByCreationTime() {
-    Iterator<Post> iterator1 = iterator(post(9, "10:00:32"),
+    Iterable<Post> iterable1 = posts(post(9, "10:00:32"),
         post(8, "10:00:27"));
-    Iterator<Post> iterator2 = iterator(post(7, "10:00:33"),
+    Iterable<Post> iterable2 = posts(post(7, "10:00:33"),
         post(6, "10:00:31"), post(5, "10:00:28"));
-    Iterator<Post> iterator3 = iterator(post(4, "10:00:34"),
+    Iterable<Post> iterable3 = posts(post(4, "10:00:34"),
         post(3, "10:00:30"), post(1, "10:00:29"));
-    Iterator<Post> iterator4 = iterator(post(2, "10:00:35"));
+    Iterable<Post> iterable4 = posts(post(2, "10:00:35"));
 
-    WallPostIterator iter = new WallPostIterator(asList(iterator1, iterator2,
-        iterator3, iterator4));
+    WallPostIterator iter = new WallPostIterator(asList(iterable1, iterable2,
+        iterable3, iterable4));
     assertPostIds(iter, 2, 4, 7, 9, 6, 3, 1, 5, 8);
   }
 
+  @Test
+  public void testFourIterablesOneEmpty() {
+    Iterable<Post> iterable1 = posts(post(9, "10:00:32"),
+        post(8, "10:00:27"));
+    Iterable<Post> iterable2 = posts();
+    Iterable<Post> iterable3 = posts(post(4, "10:00:34"),
+        post(3, "10:00:30"), post(1, "10:00:29"));
+    Iterable<Post> iterable4 = posts(post(2, "10:00:35"));
+
+    WallPostIterator iter = new WallPostIterator(asList(iterable1, iterable2,
+        iterable3, iterable4));
+    assertPostIds(iter, 2, 4, 9, 3, 1, 8);
+  }
+  
+  @Test
+  public void testFourIterablesTwoEmpty() {
+    Iterable<Post> iterable1 = posts();
+    Iterable<Post> iterable2 = posts();
+    Iterable<Post> iterable3 = posts(post(4, "10:00:34"),
+        post(3, "10:00:30"), post(1, "10:00:29"));
+    Iterable<Post> iterable4 = posts(post(2, "10:00:35"));
+
+    WallPostIterator iter = new WallPostIterator(asList(iterable1, iterable2,
+        iterable3, iterable4));
+    assertPostIds(iter, 2, 4, 3, 1);
+  }
+  
+  @Test
+  public void testFourIterablesThreeEmpty() {
+    Iterable<Post> iterable1 = posts();
+    Iterable<Post> iterable2 = posts();
+    Iterable<Post> iterable3 = posts(post(4, "10:00:34"),
+        post(3, "10:00:30"), post(1, "10:00:29"));
+    Iterable<Post> iterable4 = posts();
+
+    WallPostIterator iter = new WallPostIterator(asList(iterable1, iterable2,
+        iterable3, iterable4));
+    assertPostIds(iter, 4, 3, 1);
+  }
+  
   private void assertEmpty(WallPostIterator iter) {
     assertPostIds(iter, new long[] {});
   }
@@ -97,8 +143,8 @@ public class WallPostIteratorTest {
     assertEquals(expectedIds, actualIds);
   }
 
-  private Iterator<Post> iterator(Post... posts) {
-    return asList(posts).iterator();
+  private Iterable<Post> posts(Post... posts) {
+    return asList(posts);
   }
 
   private Post post(long id, String creationTimeStr) {

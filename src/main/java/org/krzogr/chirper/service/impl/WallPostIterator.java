@@ -46,16 +46,16 @@ public final class WallPostIterator implements Iterator<Post> {
     }
   }
 
-  public WallPostIterator(final List<Iterator<Post>> iterators) {
-    heap = new PostRef[iterators.size() == 0 ? 1 : iterators.size()];
-    initHeap(iterators);
+  public WallPostIterator(final List<Iterable<Post>> iterables) {
+    heap = new PostRef[iterables.size() == 0 ? 1 : iterables.size()];
+    initHeap(iterables);
   }
 
-  private void initHeap(final List<Iterator<Post>> iterators) {
+  private void initHeap(final List<Iterable<Post>> iterables) {
     // Copy all elements to the heap
     int index = 0;
-    for (Iterator<Post> iterator : iterators) {
-      PostRef postRef = new PostRef(iterator);
+    for (Iterable<Post> iterable : iterables) {
+      PostRef postRef = new PostRef(iterable.iterator());
       if (postRef.hasPost()) {
         heap[index++] = postRef;
       }
@@ -141,7 +141,7 @@ public final class WallPostIterator implements Iterator<Post> {
    * @param ref1 Reference to post1
    * @param ref2 Reference to post2
    * @return True if post represented by ref1 should be displayed before
-   * the post represented by ref2. False otherwise.
+   *         the post represented by ref2. False otherwise.
    */
   private boolean isBefore(final PostRef ref1, final PostRef ref2) {
     Post post1 = ref1.getPost();

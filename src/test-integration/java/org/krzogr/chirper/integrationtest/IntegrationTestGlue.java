@@ -28,7 +28,7 @@ import cucumber.api.java.en.When;
  * Helper class used to glue together cucumber integration tests with java
  * classes.
  * <p>
- * This class will be discovered on the classpath by cucumber dynamically. 
+ * This class will be discovered on the classpath by cucumber dynamically.
  * </p>
  */
 public class IntegrationTestGlue {
@@ -56,7 +56,7 @@ public class IntegrationTestGlue {
 
   private void initTestEnv() {
     clock = new ManualClock();
-    userManager = new UserManagerImpl();
+    userManager = new UserManagerImpl(clock);
     commandOutput = new StringBuilder();
     commandErrors = new StringBuilder();
   }

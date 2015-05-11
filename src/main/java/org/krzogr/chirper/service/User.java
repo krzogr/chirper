@@ -1,7 +1,5 @@
 package org.krzogr.chirper.service;
 
-import java.time.LocalDateTime;
-
 /**
  * Represents a user in Chirper application.
  * <p>
@@ -27,11 +25,10 @@ public interface User {
    * Adds new post to the list of posts sent by this user.
    * 
    * @param postText Text of the post (cannot be NULL).
-   * @param creationTime Post creation time (cannot be NULL).
    * @return The newly added post.
    * @throws NullPointerException if any parameter is NULL.
    */
-  Post addPost(String postText, LocalDateTime creationTime);
+  Post addPost(String postText);
 
   /**
    * Makes this user follow another user.
@@ -44,7 +41,11 @@ public interface User {
   void followUser(User userToFollow);
 
   /**
-   * Returns this user's posts in descending order based on creation time.
+   * Returns this user's posts.
+   * <p>
+   * Posts are returned in ascending order based on post age
+   * (i.e. the most recently added post is returned first).
+   * </p>
    * 
    * @return Posts sent by this user.
    */
@@ -53,7 +54,8 @@ public interface User {
   /**
    * Returns all posts sent by this user and all followed users.
    * <p>
-   * Posts are returned in descending order based on creation time.
+   * All posts are returned in ascending order based on post age
+   * (i.e. the most recently added post is returned first).
    * </p>
    * 
    * @return All posts sent by this user and all followed users.

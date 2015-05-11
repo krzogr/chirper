@@ -1,5 +1,6 @@
 package org.krzogr.chirper.service.impl;
 
+import java.time.Clock;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -12,8 +13,13 @@ import org.krzogr.chirper.service.UserManager;
  */
 public final class UserManagerImpl implements UserManager {
   private final Map<String, User> users = new HashMap<String, User>();
+  private final Clock clock;
   private long nextUserId = 1;
   private long nextPostId = 1;
+
+  public UserManagerImpl(final Clock clock) {
+    this.clock = clock;
+  }
 
   @Override
   public User getOrCreateUser(final String userName) {
@@ -28,5 +34,9 @@ public final class UserManagerImpl implements UserManager {
 
   public long nextPostId() {
     return nextPostId++;
+  }
+  
+  public Clock getClock() {
+    return clock;
   }
 }

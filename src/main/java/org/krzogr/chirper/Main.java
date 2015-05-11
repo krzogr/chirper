@@ -21,11 +21,13 @@ import org.krzogr.chirper.service.impl.UserManagerImpl;
  */
 public final class Main {
   public static void main(final String[] args) {
+    Clock clock = Clock.systemDefaultZone();
+
     BufferedReader commandInput = new BufferedReader(new InputStreamReader(
         System.in, Charset.defaultCharset()));
 
     CommandFactory commandFactory = new CommandFactoryImpl(
-        new UserManagerImpl(), System.out, Clock.systemDefaultZone());
+        new UserManagerImpl(clock), System.out, clock);
 
     CommandParser commandParser = new CommandParserImpl(commandFactory);
 

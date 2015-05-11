@@ -9,14 +9,14 @@ import org.krzogr.chirper.service.Post;
  * Iterable responsible for sorting and aggregating wall posts.
  */
 public final class WallPostIterable implements Iterable<Post> {
-  private final List<Iterator<Post>> iterators;
+  private final List<Iterable<Post>> iterables;
 
-  public WallPostIterable(final List<Iterator<Post>> iterators) {
-    this.iterators = iterators;
+  public WallPostIterable(final List<Iterable<Post>> iterables) {
+    this.iterables = iterables;
   }
 
   @Override
   public Iterator<Post> iterator() {
-    return new WallPostIterator(iterators);
+    return new WallPostIterator(iterables);
   }
 }
