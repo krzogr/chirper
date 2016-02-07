@@ -1,7 +1,11 @@
 package org.krzogr.chirper.service.impl;
 
+import static java.time.Duration.between;
+import static java.time.LocalDateTime.ofInstant;
+import static java.time.LocalDateTime.parse;
+import static java.time.format.DateTimeFormatter.ofPattern;
+
 import java.time.Clock;
-import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -9,8 +13,7 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
-/** Special implementation of Clock which enables to manually change current
- * date/time. */
+/** Special implementation of Clock which enables to manually change current time. */
 public class ManualClock extends Clock {
   private final ZoneId zone;
   private Instant instant;
@@ -60,16 +63,15 @@ public class ManualClock extends Clock {
   }
 
   public void setDateTime(String date, String time) {
-    LocalDateTime newDateTime = LocalDateTime.parse(date + " " + time,
-                                                    DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    LocalDateTime newDateTime = parse(date + " " + time, ofPattern("yyyy-MM-dd HH:mm:ss"));
     instant = newDateTime.toInstant(ZoneOffset.UTC);
   }
 
   public void setTime(String time) {
-    LocalDateTime curDateTime = LocalDateTime.ofInstant(instant, zone);
+    LocalDateTime curDateTime = ofInstant(instant, zone);
     LocalTime curTime = curDateTime.toLocalTime();
     LocalTime newTime = LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm:ss"));
 
-    instant = curDateTime.plus(Duration.between(curTime, newTime)).toInstant(ZoneOffset.UTC);
+    instant = curDateTime.plus(between(curTime, newTime)).toInstant(ZoneOffset.UTC);
   }
 }

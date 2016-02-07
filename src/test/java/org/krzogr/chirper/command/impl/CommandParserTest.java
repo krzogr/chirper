@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import static org.mockito.Mockito.*;
 
-/** Unit test for command parser implementation. */
+/** Unit test for the command parser. */
 public class CommandParserTest {
   private CommandFactory commandFactory;
   private CommandParser commandParser;
