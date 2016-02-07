@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.krzogr.chirper.integrationtest;
+package org.krzogr.chirper.acceptancetest;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -41,12 +41,11 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-/** Helper class used to glue together cucumber integration tests with java
- * classes.
+/** Helper class used to glue together cucumber acceptance tests with java classes.
  * <p>
  * This class will be discovered on the classpath by cucumber dynamically.
  * </p> */
-public class IntegrationTestGlue {
+public class AcceptanceTestGlue {
   private TimeZone defaultTimeZone;
   private ManualClock clock;
   private UserManager userManager;

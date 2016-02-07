@@ -15,15 +15,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.krzogr.chirper.integrationtest;
+package org.krzogr.chirper.acceptancetest;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
 
-/** Helper unit test used only to run all cucumber integration tests. */
+/** Helper unit test used only to run all cucumber acceptance tests. */
 @RunWith(Cucumber.class)
-@CucumberOptions(plugin = { "pretty", "html:target/cucumber" }, features = { "src/test-integration/" }, dryRun = false,
+@CucumberOptions(plugin = { "pretty", "html:target/cucumber" }, features = { "src/test/acceptance/" }, dryRun = false,
                  strict = true)
-public class IntegrationTest {
+public class AcceptanceTest {
 }

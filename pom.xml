@@ -44,7 +44,7 @@
             </goals>
             <configuration>
               <sources>
-                <source>src/test-integration/java</source>
+                <source>src/test/acceptance</source>
               </sources>
             </configuration>
           </execution>
