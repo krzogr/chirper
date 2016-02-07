@@ -21,17 +21,17 @@ Scenario: When user attempts to follow himself then error is shown
 
 Scenario: When username is entered and there is one post then it is shown
   Given application starts on "2014-01-01" at "17:00:01" in "Europe/London" timezone
-  When user types the text "Alice -> My first post"
-  Then user sees no output
+  And user types the text "Alice -> My first post"
+  And user sees no output
   When user types the text "Alice"
   Then user sees "My first post (0 seconds ago)" 
 
 Scenario: When username is entered and there are two posts then they are shown
   Given application starts on "2014-01-01" at "17:00:01" in "Europe/London" timezone
-  When user types the text "Alice -> My first post"
-  Then user sees no output
-  When user types at "17:00:02" the text "Alice -> Second post"
-  Then user sees no output
+  And user types the text "Alice -> My first post"
+  And user sees no output
+  And user types at "17:00:02" the text "Alice -> Second post"
+  And user sees no output
   When user types the text "Alice"
   Then user sees 
   """
@@ -41,10 +41,10 @@ Scenario: When username is entered and there are two posts then they are shown
 
 Scenario: When username is entered and there are two posts then they are shown
   Given application starts on "2014-01-01" at "17:00:01" in "Europe/London" timezone
-  When user types the text "Alice -> My first post"
-  Then user sees no output
-  When user types at "18:01:02" the text "Alice -> Second post"
-  Then user sees no output
+  And user types the text "Alice -> My first post"
+  And user sees no output
+  And user types at "18:01:02" the text "Alice -> Second post"
+  And user sees no output
   When user types the text "Alice"
   Then user sees 
   """
@@ -54,12 +54,12 @@ Scenario: When username is entered and there are two posts then they are shown
   
 Scenario: When username is entered and there are three posts with time difference then they are shown
   Given application starts on "2014-01-01" at "17:00:01" in "Europe/London" timezone
-  When user types at "17:00:02" the text "Alice -> Testing the app"
-  Then user sees no output
-  When user types at "17:10:22" the text "Alice -> My second post"
-  Then user sees no output
-  When user types at "19:33:21" the text "Alice -> It is late"
-  Then user sees no output
+  And user types at "17:00:02" the text "Alice -> Testing the app"
+  And user sees no output
+  And user types at "17:10:22" the text "Alice -> My second post"
+  And user sees no output
+  And user types at "19:33:21" the text "Alice -> It is late"
+  And user sees no output
   When user types the text "Alice"
   Then user sees 
   """
@@ -70,16 +70,16 @@ Scenario: When username is entered and there are three posts with time differenc
   
 Scenario: When username is entered and there are five posts with long time difference then they are shown
   Given application starts on "2014-01-01" at "17:00:01" in "Europe/London" timezone
-  When user types the text "Alice -> Testing the app"
-  Then user sees no output
-  When user types on "2014-01-02" at "15:00:01" the text "Alice -> My second post"
-  Then user sees no output
-  When user types on "2014-01-12" at "10:00:02" the text "Alice -> It is late"
-  Then user sees no output
-  When user types on "2014-03-12" at "03:00:01" the text "Alice -> It is very early"
-  Then user sees no output
-  When user types on "2014-06-12" at "11:00:01" the text "Alice -> My latest post"
-  Then user sees no output
+  And user types the text "Alice -> Testing the app"
+  And user sees no output
+  And user types on "2014-01-02" at "15:00:01" the text "Alice -> My second post"
+  And user sees no output
+  And user types on "2014-01-12" at "10:00:02" the text "Alice -> It is late"
+  And user sees no output
+  And user types on "2014-03-12" at "03:00:01" the text "Alice -> It is very early"
+  And user sees no output
+  And user types on "2014-06-12" at "11:00:01" the text "Alice -> My latest post"
+  And user sees no output
   When user types on "2014-06-13" at "11:10:11" the text "Alice"
   Then user sees 
   """
@@ -92,10 +92,10 @@ Scenario: When username is entered and there are five posts with long time diffe
   
 Scenario: When username is entered and there are two posts entered around DST change then they are shown
   Given application starts on "2014-03-30" at "00:00:01" in "Europe/London" timezone
-  When user types the text "Alice -> My first post"
-  Then user sees no output
-  When user types at "10:10:02" the text "Alice -> My second post"
-  Then user sees no output  
+  And user types the text "Alice -> My first post"
+  And user sees no output
+  And user types at "10:10:02" the text "Alice -> My second post"
+  And user sees no output  
   When user types the text "Alice"
   Then user sees 
   """

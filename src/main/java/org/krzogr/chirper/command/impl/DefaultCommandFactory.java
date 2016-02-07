@@ -7,16 +7,13 @@ import java.util.Objects;
 import org.krzogr.chirper.command.CommandFactory;
 import org.krzogr.chirper.service.UserManager;
 
-/**
- * Default implementation of command factory.
- */
-public final class CommandFactoryImpl implements CommandFactory {
+/** Default implementation of command factory. */
+public final class DefaultCommandFactory implements CommandFactory {
   private final UserManager userManager;
   private final PrintStream output;
   private final Clock clock;
 
-  public CommandFactoryImpl(final UserManager userManager,
-      final PrintStream output, final Clock clock) {
+  public DefaultCommandFactory(final UserManager userManager, final PrintStream output, final Clock clock) {
     Objects.requireNonNull(userManager);
     Objects.requireNonNull(output);
     Objects.requireNonNull(clock);
@@ -27,14 +24,12 @@ public final class CommandFactoryImpl implements CommandFactory {
   }
 
   @Override
-  public Runnable createAddPostCommand(final String userName,
-      final String postText) {
+  public Runnable createAddPostCommand(final String userName, final String postText) {
     return new AddPostCommand(userManager, userName, postText);
   }
 
   @Override
-  public Runnable createFollowUserCommand(final String userName,
-      final String followerUserName) {
+  public Runnable createFollowUserCommand(final String userName, final String followerUserName) {
     return new FollowUserCommand(userManager, userName, followerUserName);
   }
 

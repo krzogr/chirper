@@ -7,19 +7,16 @@ import java.util.regex.Pattern;
 import org.krzogr.chirper.command.CommandFactory;
 import org.krzogr.chirper.command.CommandParser;
 
-/**
- * Default implementation of command parser.
- */
-public final class CommandParserImpl implements CommandParser {
+/** Default implementation of command parser. */
+public final class RegexpCommandParser implements CommandParser {
   private final CommandFactory commandFactory;
   private final Pattern commandPattern;
 
-  public CommandParserImpl(final CommandFactory commandFactory) {
+  public RegexpCommandParser(final CommandFactory commandFactory) {
     Objects.requireNonNull(commandFactory);
 
     this.commandFactory = commandFactory;
-    this.commandPattern = Pattern
-        .compile("^(.+?)( -> | follows | wall\\b)(.+)?$");
+    this.commandPattern = Pattern.compile("^(.+?)( -> | follows | wall\\b)(.+)?$");
   }
 
   @Override

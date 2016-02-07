@@ -14,9 +14,7 @@ import org.junit.Test;
 import org.krzogr.chirper.service.Post;
 import org.krzogr.chirper.service.User;
 
-/**
- * Unit test to verify the default implementation of UserManager.
- */
+/** Unit test to verify the default implementation of UserManager. */
 public class UserManagerImplTest {
   private Clock clock;
   private UserManagerImpl userManager;

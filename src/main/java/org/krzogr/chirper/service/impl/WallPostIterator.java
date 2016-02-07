@@ -5,20 +5,16 @@ import java.util.List;
 
 import org.krzogr.chirper.service.Post;
 
-/**
- * Single threaded sorting iterator for wall posts.
+/** Single threaded sorting iterator for wall posts.
  * <p>
  * This class uses heap in order to aggregate and sort multiple post iterators
  * into one stream of posts sorted by creation time.
- * </p>
- */
+ * </p> */
 public final class WallPostIterator implements Iterator<Post> {
   private final PostRef[] heap;
   private int end;
 
-  /**
-   * Wrapper on top of post iterator in order to facilitate heap operations.
-   */
+  /** Wrapper on top of post iterator in order to facilitate heap operations. */
   private static class PostRef {
     private final Iterator<Post> iterator;
     private Post currentPost;
@@ -95,14 +91,12 @@ public final class WallPostIterator implements Iterator<Post> {
     return result;
   }
 
-  /**
-   * Places the start element in correct position in the heap defined between
+  /** Places the start element in correct position in the heap defined between
    * the start and end elements.
    * <p>
    * After calling this function the elements [start, end] will form a valid
    * heap.
-   * </p>
-   */
+   * </p> */
   private void shiftDown(final int start, final int end) {
     int root = start;
 
@@ -135,14 +129,12 @@ public final class WallPostIterator implements Iterator<Post> {
     }
   }
 
-  /**
-   * Compares two posts to determine their ordering.
+  /** Compares two posts to determine their ordering.
    * 
    * @param ref1 Reference to post1
    * @param ref2 Reference to post2
    * @return True if post represented by ref1 should be displayed before
-   *         the post represented by ref2. False otherwise.
-   */
+   *         the post represented by ref2. False otherwise. */
   private boolean isBefore(final PostRef ref1, final PostRef ref2) {
     Post post1 = ref1.getPost();
     Post post2 = ref2.getPost();

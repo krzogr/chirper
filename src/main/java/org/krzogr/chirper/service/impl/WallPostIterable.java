@@ -5,9 +5,7 @@ import java.util.List;
 
 import org.krzogr.chirper.service.Post;
 
-/**
- * Iterable responsible for sorting and aggregating wall posts.
- */
+/** Iterable responsible for sorting and aggregating wall posts. */
 public final class WallPostIterable implements Iterable<Post> {
   private final List<Iterable<Post>> iterables;
 

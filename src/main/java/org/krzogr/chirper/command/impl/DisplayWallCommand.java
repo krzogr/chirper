@@ -9,21 +9,19 @@ import org.krzogr.chirper.service.UserManager;
 import org.krzogr.chirper.util.PostFormatter;
 import org.krzogr.chirper.util.PostWriter;
 
-/**
- * Represents the command which prints user wall posts.
+/** Represents the command which prints user wall posts.
  * <p>
  * Wall posts contain all posts of the user plus all posts of the followed
  * users.
- * </p>
- */
+ * </p> */
 public final class DisplayWallCommand implements Runnable {
   private final UserManager userManager;
   private final String userName;
   private final PrintStream output;
   private final Clock clock;
 
-  public DisplayWallCommand(final UserManager userManager,
-      final String userName, final PrintStream output, final Clock clock) {
+  public DisplayWallCommand(final UserManager userManager, final String userName, final PrintStream output,
+                            final Clock clock) {
     Objects.requireNonNull(userManager);
     Objects.requireNonNull(userName);
     Objects.requireNonNull(output);
@@ -37,10 +35,8 @@ public final class DisplayWallCommand implements Runnable {
 
   @Override
   public void run() {
-    PostWriter writer = new PostWriter(output, LocalDateTime.now(clock),
-        new PostFormatter(true, true));
-    
-    userManager.getOrCreateUser(userName).getWall()
-        .forEach(p -> writer.write(p));
+    PostWriter writer = new PostWriter(output, LocalDateTime.now(clock), new PostFormatter(true, true));
+
+    userManager.getOrCreateUser(userName).getWall().forEach(p -> writer.write(p));
   }
 }

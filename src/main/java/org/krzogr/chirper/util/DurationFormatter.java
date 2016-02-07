@@ -3,23 +3,18 @@ package org.krzogr.chirper.util;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Utility class to format time duration to a user friendly string.
- */
+/** Utility class to format time duration to a user friendly string. */
 public final class DurationFormatter {
   private DurationFormatter() {
   }
 
-  /**
-   * Formats the specified time duration to a user friendly string.
+  /** Formats the specified time duration to a user friendly string.
    * 
    * @param duration Time duration to format.
    * @param highestUnitOnly Use only the highest time unit which the duration
    *        could be described with.
-   * @return User friendly representation of time duration.
-   */
-  public static String format(final Duration duration,
-      final boolean highestUnitOnly) {
+   * @return User friendly representation of time duration. */
+  public static String format(final Duration duration, final boolean highestUnitOnly) {
     StringBuilder result = new StringBuilder();
     String sep = "";
 
@@ -45,8 +40,7 @@ public final class DurationFormatter {
 
     long minutes = duration.minusDays(days).minusHours(hours).toMinutes();
     if (minutes > 0) {
-      result.append(sep).append(minutes)
-          .append(minutes == 1 ? " minute" : " minutes");
+      result.append(sep).append(minutes).append(minutes == 1 ? " minute" : " minutes");
       sep = ", ";
 
       if (highestUnitOnly) {
@@ -54,11 +48,10 @@ public final class DurationFormatter {
       }
     }
 
-    long seconds = TimeUnit.MILLISECONDS.toSeconds(duration.minusDays(days)
-        .minusHours(hours).minusMinutes(minutes).toMillis());
+    long seconds = TimeUnit.MILLISECONDS.toSeconds(duration.minusDays(days).minusHours(hours).minusMinutes(minutes)
+                                                           .toMillis());
     if (seconds > 0 || result.length() == 0) {
-      result.append(sep).append(seconds)
-          .append(seconds == 1 ? " second" : " seconds");
+      result.append(sep).append(seconds).append(seconds == 1 ? " second" : " seconds");
     }
 
     return result.toString();

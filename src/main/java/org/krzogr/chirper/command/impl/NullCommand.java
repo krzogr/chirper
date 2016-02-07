@@ -1,8 +1,6 @@
 package org.krzogr.chirper.command.impl;
 
-/**
- * Represents the empty command.
- */
+/** Represents the empty command. */
 public final class NullCommand implements Runnable {
   private static final NullCommand INSTANCE = new NullCommand();
 

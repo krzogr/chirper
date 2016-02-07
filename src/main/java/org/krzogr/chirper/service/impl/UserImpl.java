@@ -10,9 +10,7 @@ import java.util.Objects;
 import org.krzogr.chirper.service.Post;
 import org.krzogr.chirper.service.User;
 
-/**
- * Default, in-memory and <b>single threaded</b> implementation of User.
- */
+/** Default, in-memory and <b>single threaded</b> implementation of User. */
 public final class UserImpl implements User {
   private final long id;
   private final String userName;
@@ -20,8 +18,7 @@ public final class UserImpl implements User {
   private final HashSet<User> usersToFollow;
   private final UserManagerImpl userManager;
 
-  public UserImpl(final long id, final String userName,
-      final UserManagerImpl userManager) {
+  public UserImpl(final long id, final String userName, final UserManagerImpl userManager) {
     Objects.requireNonNull(userName);
     Objects.requireNonNull(userManager);
 
@@ -46,8 +43,7 @@ public final class UserImpl implements User {
   public Post addPost(final String text) {
     Objects.requireNonNull(text);
 
-    Post post = new PostImpl(userManager.nextPostId(), text, this,
-      LocalDateTime.now(userManager.getClock()));
+    Post post = new PostImpl(userManager.nextPostId(), text, this, LocalDateTime.now(userManager.getClock()));
     posts.addFirst(post);
 
     return post;
@@ -57,8 +53,7 @@ public final class UserImpl implements User {
   public void followUser(final User user) {
     Objects.requireNonNull(user);
     if (user == this) {
-      throw new IllegalArgumentException("User cannot follow himself: "
-          + user.getUserName());
+      throw new IllegalArgumentException("User cannot follow himself: " + user.getUserName());
     }
 
     usersToFollow.add(user);
@@ -71,8 +66,7 @@ public final class UserImpl implements User {
 
   @Override
   public Iterable<Post> getWall() {
-    List<Iterable<Post>> iterables = new ArrayList<Iterable<Post>>(
-        usersToFollow.size() + 1);
+    List<Iterable<Post>> iterables = new ArrayList<Iterable<Post>>(usersToFollow.size() + 1);
 
     iterables.add(posts);
     usersToFollow.forEach(user -> iterables.add(user.getTimeline()));

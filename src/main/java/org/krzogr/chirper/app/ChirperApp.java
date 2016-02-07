@@ -6,20 +6,17 @@ import java.io.PrintStream;
 
 import org.krzogr.chirper.command.CommandParser;
 
-/**
- * Represents Chirper application command processing loop.
+/** Chirper application command processing loop.
  * <p>
  * Reads commands from the specified input and executes them. Command loop
  * (application) is terminated when there is no more input.
- * </p>
- */
+ * </p> */
 public final class ChirperApp implements Runnable {
   private final BufferedReader commandInput;
   private final CommandParser commandParser;
   private final PrintStream errorStream;
 
-  public ChirperApp(final BufferedReader commandInput,
-      final CommandParser commandParser, final PrintStream errorStream) {
+  public ChirperApp(final BufferedReader commandInput, final CommandParser commandParser, final PrintStream errorStream) {
     this.commandInput = commandInput;
     this.commandParser = commandParser;
     this.errorStream = errorStream;

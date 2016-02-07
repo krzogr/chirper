@@ -1,5 +1,5 @@
 # chirper
-Console java application which implements simple chat-like command interface.
+Prototype of Tweeter like chat application. The purpose of this project is to demonstrate BDD (behaviour driven development) and acceptance testing.
 
 ## Commands
 `<user> -> <message>` 

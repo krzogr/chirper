@@ -6,35 +6,28 @@ import java.lang.reflect.Modifier;
 
 import org.junit.Assert;
 
-/**
- * Contains utility methods used in unit tests.
- */
+/** Contains utility methods used in unit tests. */
 public class TestUtils {
-  /**
-   * Verifies that utility class is properly defined (private constructor, etc).
+  /** Verifies that utility class is properly defined (private constructor, etc).
    * 
-   * @param classObj Utility class to verify.
-   */
+   * @param classObj Utility class to verify. */
   public static void assertUtilityClassWellDefined(final Class<?> classObj) {
     try {
-      Assert.assertTrue("Class must be final",
-          Modifier.isFinal(classObj.getModifiers()));
-      Assert.assertEquals("There must be only one constructor", 1,
-          classObj.getDeclaredConstructors().length);
-      final Constructor<?> constructor = classObj.getDeclaredConstructor();
+      Assert.assertTrue("Class must be final", Modifier.isFinal(classObj.getModifiers()));
+      Assert.assertEquals("There must be only one constructor", 1, classObj.getDeclaredConstructors().length);
 
-      if (constructor.isAccessible()
-          || !Modifier.isPrivate(constructor.getModifiers())) {
+      final Constructor<?> c = classObj.getDeclaredConstructor();
+
+      if (c.isAccessible() || !Modifier.isPrivate(c.getModifiers())) {
         Assert.fail("Constructor is not private");
       }
 
-      constructor.setAccessible(true);
-      constructor.newInstance();
-      constructor.setAccessible(false);
+      c.setAccessible(true);
+      c.newInstance();
+      c.setAccessible(false);
 
       for (final Method method : classObj.getMethods()) {
-        if (!Modifier.isStatic(method.getModifiers())
-            && method.getDeclaringClass().equals(classObj)) {
+        if (!Modifier.isStatic(method.getModifiers()) && method.getDeclaringClass().equals(classObj)) {
           Assert.fail("There exists a non-static method:" + method);
         }
       }

@@ -6,15 +6,12 @@ import java.time.LocalDateTime;
 
 import org.krzogr.chirper.service.Post;
 
-/**
- * Utility class to format Post to a user friendly string.
- */
+/** Utility class to format Post to a user friendly string. */
 public final class PostFormatter {
   private final boolean includeUserName;
   private final boolean highestDurationUnitOnly;
 
-  public PostFormatter(final boolean includeUserName,
-      final boolean highestDurationUnitOnly) {
+  public PostFormatter(final boolean includeUserName, final boolean highestDurationUnitOnly) {
     this.includeUserName = includeUserName;
     this.highestDurationUnitOnly = highestDurationUnitOnly;
   }
@@ -34,10 +31,7 @@ public final class PostFormatter {
     return buffer.toString();
   }
 
-  private String formatPostAge(final Post post,
-      final LocalDateTime referenceTime) {
-    return DurationFormatter
-        .format(between(post.getCreationTime(), referenceTime),
-            highestDurationUnitOnly);
+  private String formatPostAge(final Post post, final LocalDateTime referenceTime) {
+    return DurationFormatter.format(between(post.getCreationTime(), referenceTime), highestDurationUnitOnly);
   }
 }

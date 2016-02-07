@@ -8,9 +8,7 @@ import org.junit.Test;
 
 import static org.mockito.Mockito.*;
 
-/**
- * Unit test for command parser implementation.
- */
+/** Unit test for command parser implementation. */
 public class CommandParserTest {
   private CommandFactory commandFactory;
   private CommandParser commandParser;
@@ -18,7 +16,7 @@ public class CommandParserTest {
   @Before
   public void prepare() {
     commandFactory = mock(CommandFactory.class);
-    commandParser = new CommandParserImpl(commandFactory);
+    commandParser = new RegexpCommandParser(commandFactory);
   }
 
   @Test
@@ -27,15 +25,13 @@ public class CommandParserTest {
     verify(commandFactory).createAddPostCommand("Alice", "test");
 
     commandParser.parse("Alice -> long sentence with special chars .,;-%");
-    verify(commandFactory).createAddPostCommand("Alice",
-        "long sentence with special chars .,;-%");
+    verify(commandFactory).createAddPostCommand("Alice", "long sentence with special chars .,;-%");
 
     commandParser.parse("Alice ->    text to trim  - .    ");
     verify(commandFactory).createAddPostCommand("Alice", "text to trim  - .");
 
     commandParser.parse("   Long Username to trim   ->   text to trim  - .  ");
-    verify(commandFactory).createAddPostCommand("Long Username to trim",
-        "text to trim  - .");
+    verify(commandFactory).createAddPostCommand("Long Username to trim", "text to trim  - .");
 
     assertInvalidCommand("     ->    text");
     assertInvalidCommand(" a    ->    ");
@@ -49,17 +45,13 @@ public class CommandParserTest {
     verify(commandFactory).createFollowUserCommand("Alice", "test");
 
     commandParser.parse("Alice follows long username with special chars .,;-%");
-    verify(commandFactory).createFollowUserCommand("Alice",
-        "long username with special chars .,;-%");
+    verify(commandFactory).createFollowUserCommand("Alice", "long username with special chars .,;-%");
 
     commandParser.parse("Alice follows     username to trim  - .    ");
-    verify(commandFactory).createFollowUserCommand("Alice",
-        "username to trim  - .");
+    verify(commandFactory).createFollowUserCommand("Alice", "username to trim  - .");
 
-    commandParser
-        .parse("     Long Username to trim   follows    Longer Username to trim    ");
-    verify(commandFactory).createFollowUserCommand("Long Username to trim",
-        "Longer Username to trim");
+    commandParser.parse("     Long Username to trim   follows    Longer Username to trim    ");
+    verify(commandFactory).createFollowUserCommand("Long Username to trim", "Longer Username to trim");
 
     assertInvalidCommand("     follows    text");
     assertInvalidCommand(" a    follows    ");
@@ -76,8 +68,7 @@ public class CommandParserTest {
     verify(commandFactory).createDisplayTimelineCommand("Lisa");
 
     commandParser.parse("     Long Username to trim  - .     ");
-    verify(commandFactory).createDisplayTimelineCommand(
-        "Long Username to trim  - .");
+    verify(commandFactory).createDisplayTimelineCommand("Long Username to trim  - .");
   }
 
   @Test
@@ -112,8 +103,7 @@ public class CommandParserTest {
       error = e;
     }
 
-    assertNotNull("Expected invalid command but the command was parsed: '"
-        + command + "'", error);
+    assertNotNull("Expected invalid command but the command was parsed: '" + command + "'", error);
     assertEquals("Invalid command '" + command + "'", error.getMessage());
   }
 }

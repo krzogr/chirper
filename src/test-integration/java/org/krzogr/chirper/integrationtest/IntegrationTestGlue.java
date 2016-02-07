@@ -12,8 +12,8 @@ import static org.junit.Assert.*;
 import org.krzogr.chirper.app.ChirperApp;
 import org.krzogr.chirper.command.CommandFactory;
 import org.krzogr.chirper.command.CommandParser;
-import org.krzogr.chirper.command.impl.CommandFactoryImpl;
-import org.krzogr.chirper.command.impl.CommandParserImpl;
+import org.krzogr.chirper.command.impl.DefaultCommandFactory;
+import org.krzogr.chirper.command.impl.RegexpCommandParser;
 import org.krzogr.chirper.service.UserManager;
 import org.krzogr.chirper.service.impl.ManualClock;
 import org.krzogr.chirper.service.impl.UserManagerImpl;
@@ -24,13 +24,11 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-/**
- * Helper class used to glue together cucumber integration tests with java
+/** Helper class used to glue together cucumber integration tests with java
  * classes.
  * <p>
  * This class will be discovered on the classpath by cucumber dynamically.
- * </p>
- */
+ * </p> */
 public class IntegrationTestGlue {
   private TimeZone defaultTimeZone;
   private ManualClock clock;
@@ -47,11 +45,8 @@ public class IntegrationTestGlue {
   @After
   public void cleanup() {
     TimeZone.setDefault(defaultTimeZone);
-
-    assertEquals("Unexpected output '" + commandOutput + "'", 0,
-        commandOutput.length());
-    assertEquals("Unexpected errors '" + commandErrors + "'", 0,
-        commandErrors.length());
+    assertEquals("Unexpected output '" + commandOutput + "'", 0, commandOutput.length());
+    assertEquals("Unexpected errors '" + commandErrors + "'", 0, commandErrors.length());
   }
 
   private void initTestEnv() {
@@ -63,36 +58,33 @@ public class IntegrationTestGlue {
 
   private void runCommand(String command) {
     try {
-      BufferedReader input = new BufferedReader(new StringReader(
-          command.toString() + System.lineSeparator()));
+      StringReader commandReader = new StringReader(command.toString() + System.lineSeparator());
+      BufferedReader appInput = new BufferedReader(commandReader);
+      ByteArrayOutputStream appOutput = new ByteArrayOutputStream();
+      ByteArrayOutputStream appErrors = new ByteArrayOutputStream();
 
-      ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-      CommandFactory commandFactory = new CommandFactoryImpl(userManager,
-          new PrintStream(outputStream), clock);
-      CommandParser commandParser = new CommandParserImpl(commandFactory);
+      CommandFactory commandFactory = new DefaultCommandFactory(userManager, new PrintStream(appOutput), clock);
+      CommandParser commandParser = new RegexpCommandParser(commandFactory);
 
-      ByteArrayOutputStream errorStream = new ByteArrayOutputStream();
-      new ChirperApp(input, commandParser, new PrintStream(errorStream)).run();
+      new ChirperApp(appInput, commandParser, new PrintStream(appErrors)).run();
 
-      outputStream.close();
-      byte[] outputBytes = outputStream.toByteArray();
-      if (outputBytes.length > 0) {
-        commandOutput.append(new String(outputBytes));
-      }
-
-      errorStream.close();
-      byte[] errorBytes = errorStream.toByteArray();
-      if (errorBytes.length > 0) {
-        commandErrors.append(new String(errorBytes));
-      }
+      captureStreamData(appOutput, commandOutput);
+      captureStreamData(appErrors, commandErrors);
     } catch (IOException e) {
       throw new RuntimeException("Unexpected error while running command", e);
     }
   }
 
+  private void captureStreamData(ByteArrayOutputStream stream, StringBuilder output) throws IOException {
+    stream.close();
+    byte[] bytes = stream.toByteArray();
+    if (bytes.length > 0) {
+      output.append(new String(bytes));
+    }
+  }
+  
   @Given("^application starts on \"(.*?)\" at \"(.*?)\" in \"(.*?)\" timezone$")
-  public void givenApplicationStarts(String date, String time, String timezoneID)
-      throws Throwable {
+  public void givenAppStarts(String date, String time, String timezoneID) throws Throwable {
     TimeZone timeZone = TimeZone.getTimeZone(timezoneID);
     TimeZone.setDefault(timeZone);
     initTestEnv();
@@ -110,15 +102,13 @@ public class IntegrationTestGlue {
   }
 
   @When("^user types at \"(.*?)\" the text \"(.*?)\"$")
-  public void whenUserTypesTextAtTime(String time, String command)
-      throws Throwable {
+  public void whenUserTypesTextAtTime(String time, String command) throws Throwable {
     clock.setTime(time);
     runCommand(command);
   }
 
   @When("^user types on \"(.*?)\" at \"(.*?)\" the text \"(.*?)\"$")
-  public void whenUserTypesTextOnDateAtTime(String date, String time,
-      String command) throws Throwable {
+  public void whenUserTypesTextOnDateAtTime(String date, String time, String command) throws Throwable {
     clock.setDateTime(date, time);
     runCommand(command);
   }
@@ -140,7 +130,7 @@ public class IntegrationTestGlue {
     result = result + System.lineSeparator();
     return result;
   }
-  
+
   @Then("^user sees no output$")
   public void thenUserSeesNoOutput() throws Throwable {
     assertEquals("", commandOutput.toString());

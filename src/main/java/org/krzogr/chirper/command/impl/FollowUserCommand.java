@@ -4,16 +4,13 @@ import java.util.Objects;
 
 import org.krzogr.chirper.service.UserManager;
 
-/**
- * Represents the command which makes a user to follow another user.
- */
+/** Represents the command which makes a user to follow another user. */
 public final class FollowUserCommand implements Runnable {
   private final UserManager userManager;
   private final String userName;
   private final String userToFollow;
 
-  public FollowUserCommand(final UserManager userManager,
-      final String userName, final String userToFollow) {
+  public FollowUserCommand(final UserManager userManager, final String userName, final String userToFollow) {
     Objects.requireNonNull(userManager);
     Objects.requireNonNull(userName);
     Objects.requireNonNull(userToFollow);
@@ -25,7 +22,6 @@ public final class FollowUserCommand implements Runnable {
 
   @Override
   public void run() {
-    userManager.getOrCreateUser(userName).followUser(
-        userManager.getOrCreateUser(userToFollow));
+    userManager.getOrCreateUser(userName).followUser(userManager.getOrCreateUser(userToFollow));
   }
 }

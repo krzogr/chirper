@@ -4,16 +4,13 @@ import java.util.Objects;
 
 import org.krzogr.chirper.service.UserManager;
 
-/**
- * Represents the command which adds new post to the specified user.
- */
+/** Command which adds new post for the specified user. */
 public final class AddPostCommand implements Runnable {
   private final UserManager userManager;
   private final String userName;
   private final String postText;
 
-  public AddPostCommand(final UserManager userManager, final String userName,
-      final String postText) {
+  public AddPostCommand(final UserManager userManager, final String userName, final String postText) {
     Objects.requireNonNull(userManager);
     Objects.requireNonNull(userName);
     Objects.requireNonNull(postText);
